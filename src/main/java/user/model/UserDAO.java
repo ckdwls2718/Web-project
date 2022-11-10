@@ -9,6 +9,58 @@ public class UserDAO {
 	PreparedStatement ps;
 	ResultSet rs;
 	
+	public UserDAO(){
+		System.out.println("UserDAO생성자()...");
+	}
+	
+	public UserVO loginCheck(String userid, String pwd) throws SQLException, NotUserException{
+		try {
+			con = DBUtil.getCon();
+			
+			UserVO user = this.selectUserByUserid(userid);
+			if(user==null) throw new NotUserException(userid+"란 아이디는 존재하지 않아요");
+			
+			//비밀번호 일치여부를 체크
+			String dbPwd = user.getPwd();
+			if(!dbPwd.equals(pwd)) throw new NotUserException("비밀번호가 일치하지 않아요");
+			
+			return user;
+		} finally {
+			close();
+		}
+	}
+	
+	private UserVO selectUserByUserid(String userid) throws SQLException{
+		try {
+			con = DBUtil.getCon();
+			String sql = new StringBuilder("select * from member where userid=?").toString();
+			ps=con.prepareStatement(sql);
+			ps.setString(1, userid);
+			rs = ps.executeQuery();
+			List<UserVO> arr = makeList(rs);
+			if(arr !=null && arr.size()==1) {
+				UserVO user = arr.get(0);
+				return user;
+			}
+			return null;
+		} finally {
+			close();
+		}
+	}
+
+	public boolean idCheck(String userid) throws SQLException{
+		try {
+			con = DBUtil.getCon();
+			String sql = new StringBuilder("select idx from member where userid= ?").toString();
+			ps = con.prepareStatement(sql);
+			ps.setString(1,userid);
+			rs = ps.executeQuery();
+			return !rs.next(); // true면 아이디가 있다는 얘기 => false 반환 , false면 없다는 얘기 => true 반환
+		} finally {
+			close();
+		}
+	}
+	
 	public List<UserVO> makeList(ResultSet rs) throws SQLException{
 		List<UserVO> arr = new ArrayList<>();
 		while(rs.next()) {
@@ -28,9 +80,7 @@ public class UserDAO {
 			
 			arr.add(new UserVO(idx,name,userid,pwd,hp1,hp2,hp3,post,addr1,addr2,indate,mileage,status));
 		}
-		
 		return arr;
-		
 	}
 	
 	public List<UserVO> listUser() throws SQLException{

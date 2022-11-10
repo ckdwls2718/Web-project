@@ -5,6 +5,12 @@
 <div class="container">
 	<h1>Signup</h1>
 	<form name="mf" action="joinEnd.jsp" method="post">
+		<!-- 날짜 : <input type="date" name ="birth">
+		<span class="ck">*yyyy-mm-dd or yyyy/mm/dd</span> 
+		이메일 : <input type="text" name="email"><br>
+		<span class="ck">*aaa@naver.com 이메일은 알파벳문자,숫자, 하이픈@naver.com 형식</span>
+		-->
+		
 		<table border="1" style="width:90%; margin:auto; margin-top:3em">
 			<tr>
 				<td width="20%" class="m1"><b>이름</b></td>
@@ -16,8 +22,8 @@
 			<tr>
 				<td width="20%" class="m1"><b>아이디</b></td>
 				<td width="80%" class="m2">
-				<input type="text" name="userid" id="userid" placeholder="User ID">
-				<button type="button">아이디 중복 체크</button>
+				<input type="text" name="userid" id="userid" readonly placeholder="User ID">
+				<button type="button" onclick="open_idcheck()">아이디 중복 체크</button>
 				<br><span class="ck">*아이디는 영문자,숫자,_,!만 사용 가능해요</span>
 				</td>
 			</tr>
