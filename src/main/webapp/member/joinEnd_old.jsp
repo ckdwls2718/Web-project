@@ -10,7 +10,7 @@
 	String hp2 = request.getParameter("hp2"); 
 	String hp3 = request.getParameter("hp3"); 
 	String post = request.getParameter("post"); 
-	String addr1 = request.getParameter("addr1"); 
+	String addr1 = request.getParameter("addr1");  
 	String addr2 = request.getParameter("addr2"); 
 	
 	if(name == null || userid==null || pwd == null || hp1 == null || hp2 == null || hp3 == null
@@ -24,7 +24,7 @@
 		return;
 	}
 	
-	UserVO vo = new UserVO(0,name,userid,pwd,hp1,hp2,hp3,post,addr1,addr2,null,0,0);
+	UserVO vo = new UserVO(0,name,userid,pwd,hp1,hp2,hp3,post,addr1,addr2,null,0,0,null);
 	
 	UserDAO dao = new UserDAO();
 	

@@ -6,6 +6,7 @@
 %>
 <jsp:useBean id="user" class="user.model.UserVO" scope="page"/>
 <%-- UserVO vo = new UserVO(); 와 동일함 --%>
+
 <jsp:setProperty name="user" property="*"/>
 <%-- 모든 UserVO setter를 적용시킴 --%>
 <%

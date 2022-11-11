@@ -16,15 +16,16 @@ public class UserVO {
 	private String addr2;
 	
 	private java.sql.Date indate;
-	private int maileage;
+	private int mileage;
 	private int status; //회원상태정보 (0:일반 ,-1:정지, -2:탈퇴)
+	private String statusStr;
 	
 	public UserVO() {
 		
 	}
 
 	public UserVO(int idx, String name, String userid, String pwd, String hp1, String hp2, String hp3, String post,
-			String addr1, String addr2, Date indate, int maileage, int status) {
+			String addr1, String addr2, Date indate, int mileage, int status, String statusStr) {
 		this.idx = idx;
 		this.name = name;
 		this.userid = userid;
@@ -36,8 +37,9 @@ public class UserVO {
 		this.addr1 = addr1;
 		this.addr2 = addr2;
 		this.indate = indate;
-		this.maileage = maileage;
+		this.mileage = mileage;
 		this.status = status;
+		this.statusStr = statusStr;
 	}
 
 	public int getIdx() {
@@ -128,12 +130,12 @@ public class UserVO {
 		this.indate = indate;
 	}
 
-	public int getMaileage() {
-		return maileage;
+	public int getMileage() {
+		return mileage;
 	}
 
-	public void setMaileage(int maileage) {
-		this.maileage = maileage;
+	public void setMileage(int mileage) {
+		this.mileage = mileage;
 	}
 
 	public int getStatus() {
@@ -144,6 +146,14 @@ public class UserVO {
 		this.status = status;
 	}
 	
+	public String getStatusStr() {
+		return statusStr;
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
+	}
+
 	public String getAllHp() {
 		return hp1+"-"+hp2+"-"+hp3;
 	}

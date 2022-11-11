@@ -27,8 +27,24 @@ function login_check(){
 	}
 	return true;
 }
-
 </script>
+
+<%
+	//쿠키를 이용해서 아이디저장값 불러오기
+	
+	Cookie[] cks = request.getCookies();
+	String uid="";
+	boolean flag = false;
+	if(cks!=null){
+		for(Cookie ck : cks){
+			if(ck.getName().equals("uid")){
+				uid = ck.getValue();
+				flag = true;
+				break;
+			}
+		}
+	}
+%>
 <div class="container">
 	<br><br>
 	<h1>Login</h1>
@@ -43,7 +59,7 @@ function login_check(){
 				<tr>
 					<td width="30%" class="m1"><b>아이디</b></td>
 					<td width="70%" class="m2">
-						<input type="text" name="userid" id="userid" placeholder="User ID">
+						<input type="text" name="userid" value="<%=uid %>" id="userid" placeholder="User ID">
 					</td>
 				</tr>
 				<tr>
@@ -55,7 +71,7 @@ function login_check(){
 				<tr>
 					<td colspan="2" class="container">
 						<label for="saveId">
-							<input type="checkbox" name="saveId" id="saveId">아이디 저장
+							<input type="checkbox" name="saveId" <%=(flag)?"checked" : "" %> id="saveId">아이디 저장
 						</label>
 						<button id="btnLogin">로그인</button>
 						<!--  default가 submit버튼 -->

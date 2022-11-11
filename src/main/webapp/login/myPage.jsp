@@ -12,11 +12,11 @@
 	<ul style="list-style-type: none">
 		<li>아 이 디: <b><%=user.getUserid() %></b> </li>
 		<li>연 락 처: <b><%=user.getAllHp() %></b></li>
-		<li>마일리지: <b><%=user.getMaileage() %></b></li>
-		<li>회원상태: <b><%=user.getStatus() %></b></li>
+		<li>마일리지: <b><%=user.getMileage() %></b></li>
+		<li>회원상태: <b><%=user.getStatusStr() %></b></li>
 		<li>주    소: <b><%=user.getAllAddr() %></b></li>
-	
 	</ul>
+	<button onclick="location.href='../member/modify.jsp'">회원정보 수정 | 탈퇴</button>
 </div>
 
 <jsp:include page="/foot.jsp"/>
