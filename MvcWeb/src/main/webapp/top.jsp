@@ -31,7 +31,7 @@
        
         <ul>
             <li><a href="<%=myctx%>/index.do">Home</a></li>
-            <li><a href="<%=myctx%>/boardWrite.do">board 쓰기</a></li>
+            <li><a href="<%=myctx%>/user/boardWrite.do">board 쓰기</a></li>
             <li><a href="<%=myctx%>/boardList.do">board 목록</a></li>
             
             <c:choose>
@@ -41,6 +41,7 @@
             	</c:when>
             	<c:otherwise>
             	<li><a href="<%=myctx%>/logout.do">로그아웃</a></li>
+            	<li><a href="<%=myctx%>/user/myPage.do">마이페이지</a></li>
             	</c:otherwise>
             </c:choose>
         </ul>

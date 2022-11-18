@@ -72,7 +72,7 @@ div.bbs{
 
 	--%>
 	
-	<form name="boardF" id="boardFrm" action="boardWriteEnd.do" enctype="multipart/form-data" 
+	<form name="boardF" id="boardFrm" action="${pageContext.request.contextPath}/boardWriteEnd.do" enctype="multipart/form-data" 
 	method="post" onsubmit="return board_check()">
 		<ul>
 			<li>제목</li>
