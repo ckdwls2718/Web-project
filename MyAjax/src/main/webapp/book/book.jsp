@@ -19,7 +19,18 @@
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <!-- ------------------------------------------------- -->
 <style type="text/css">
+.listbox{
+	position:relative;
+	background:#efefef;
+	color:gray;
+	border:1px solid silver;
+}
 
+.blist{
+	margin:0;
+	padding:5px;
+	list-style-type:none;
+}
 
 </style>
 
@@ -42,6 +53,100 @@
 		
 	
 	*/
+	function autoComp(val){
+		
+		if(val == ''){
+			$("#lst2").html('');
+			return;
+		}
+		$.ajax({
+			type:'get',
+			url:'autoComplete.jsp?title='+encodeURIComponent(val),
+			cache:false,
+			dataType:'html'
+		}).done(function(res){
+			$("#lst2").html(res);
+			$("#lst1").show();
+			$("#lst2").show();
+		}).fail(function(err){
+			alert("error : "+err.status)
+		})
+	}
+	
+	function setting(val){
+		$('#books').val(val);
+		$("#lst1").hide();
+		$("#lst2").hide();
+	}
+	
+	
+	function getPublish(){
+		$.ajax({
+			type:'get',
+			url:'bookPublish.jsp',
+			cache:false,
+			dataType:'json',
+		}).done(function(res){
+			showSelect(res);
+		}).fail(function(err){
+			alert('error:'+err.status);
+		})
+	}
+	
+	function showSelect(data){
+		let str="<select name='publish' onchange='getTitleByPub(this.value)'>";
+			str+="<option value=''>::출판사 목록::</option>";
+			$.each(data,function(i,pub){
+				str+="<option value='"+pub.publish+"'>"+pub.publish+"</option>";
+			})
+			str+="</select>";
+		$('#sel').html(str);
+	}
+	
+	function getTitleByPub(val){
+		//alert(val);
+		$.ajax({
+			type:'get',
+			url:'bookTitle.jsp?publish='+encodeURIComponent(val),
+			cache:false,
+			dataType:'json',
+		}).done(function(res){
+			//alert(res);
+			showSelect2(res);
+		}).fail(function(err){
+			alert("error : "+err.status);
+		})
+	}
+	
+	function showSelect2(data){
+		let str="<select name='publishTitle' onchange='bookInfo(this.value)'>";
+			str+="<option value=''>::도서명::</option>";
+			$.each(data,function(i,book){
+				str+="<option value='"+book.title+"'>"+book.title+"</option>";
+			})
+			str+="</select>";
+		$('#sel2').html(str);
+	}
+	
+	function bookInfo(vtitle){
+		
+		if(vtitle=='검색'){
+			vtitle = $("#books").val();
+		}
+		
+		$.ajax({
+			type:'get',
+			url:'bookAll.jsp?title='+encodeURIComponent(vtitle),
+			cache:false,
+			dataType:'html',
+		}).done(function(res){
+			//alert(res);
+			$("#book_data").html(res);
+		}).fail(function(err){
+			alert("error : "+err.status);
+		})
+	}
+	
 	
 	function goDel(visbn){
 		$.ajax({
@@ -108,28 +213,31 @@
 	}
 	
 	function goEditEnd(){
+		//input data들을 queryString 형식으로 반환해준다.
 		let paramStr = $("#editF").serialize();
+		
 		$.ajax({
 			type:'post',
 			url:'bookUpdate.jsp',
 			data: paramStr,
-			cache:false,
-			success:function(res){	
-				if(res.result>0){
-					alert('수정완료');
-				} else{
-					alert('수정실패');
-				}
-			},
-			error:function(err){
-				alert('error:'+err.status);
-			} 
-			
+			cache:false
+		}).done(function(res){ //succescc일때 수행하는 콜백함수
+			if(res.result>0){
+				alert('수정완료');
+			} else{
+				alert('수정실패');
+			}
+			getAllBook();
+		}).fail(function(err){ //error일때 수행하는 콜백함수
+			alert('error:'+err.status);
 		})
-			
-		
 	}
 	
+	
+	
+	$(function(){
+		getAllBook();
+	})
 	
 
 </script>
@@ -165,7 +273,7 @@
 <div> 
 
 <button type="button"
-  onclick="getBook()"
+  onclick="bookInfo('검색')"
   class="btn btn-primary">검색</button>
  
  <button type="button" onclick="getAllBook()" class="btn btn-success">모두보기</button>
