@@ -44,6 +44,7 @@ function send(url, keyword, cpage){
 				display:20
 		};
 		showList(res.items, obj);
+		showPage(obj);
 		
 	}).fail(function(err){
 		alert('error : '+err.status);
@@ -73,6 +74,57 @@ function showList(items, obj){
 	
 	
 	$('#openApiBook').html(str);
+}
+function showPage(obj){
+	let total = obj.total; //총 검색한 도서개수
+	let display = obj.display; //한 페이지당 보여줄 목록 개수
+	if(total>200){
+		total = 200;
+	}
+	
+	//let pageCount =Math.floor((total-1)/display+1);
+	let pageCount =Math.ceil((total-1)/display);
+	
+	//alert('pageCount : '+pageCount);
+	
+	/*
+	start값 구하기
+	cpage(i)    display		start
+		1		20			1
+		2					21
+		3					41
+		4					61
+	
+		start = (i-1)*display+1
+		start = i*display - (display-1)
+	*/
+	let query=obj.keyword;
+	   
+	   let str='<ul class="pagination">';
+	      for(let i=1;i<=pageCount;i++){
+	         let start=(i-1)*display+1;//시작값=> 네이버에 넘길 파라미터값
+	         console.log('start: '+start);
+	         
+	         if(i==obj.cpage){
+	         str+='<li class="active">';
+	         }else{
+	         str+='<li>';
+	         }
+	         
+	         str+='<a href="#" onclick="fetch(\''+query+'\','+start+','+i+')">';
+	         str+=i;
+	         str+='</a>';
+	         str+='</li>';
+	      }
+	      str_='</ul>';
+	   $('#pageNavi').html(str);
+
+}
+function fetch(query,start,cpage){
+		//alert(query+"/"+start+"/"+cpage);
+	   let url="openApiResult.jsp?query="+encodeURIComponent(query)+"&display=20&start="+start;
+	   send(url,query,cpage);
+
 }
 </script>
 <!-- ------------------------------------------------- -->
