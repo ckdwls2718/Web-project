@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="mb1" class="ex04.MessageImpl" >
+		<property name="greeting">
+			<value>즐거운 하루 되세요~</value>
+		</property>
+		<property name="name" value="king" />
+		<property name="today" >
+			<ref bean="now"/>
+		</property>
+		<property name="ran" ref="random"/>
+	</bean>
+	
+	<bean id="mb2" class="ex04.MessageImpl">
+		<property name="name" value="홍길동"/>
+		<property name="greeting" value="안녕하세요"/>
+		<property name="today" ref="now"/>
+		<property name="ran" ref="random"/>
+	</bean>
+	
+	<bean id="now" class="java.util.Date"/>
+	<bean id="random" class="java.util.Random"/>
+</beans>
