@@ -18,3 +18,9 @@ ajax를 이용한 비동기통신 ( 유용하게 쓰이는 것 같다 )
 
 # spring IOC
 객체를 spring bean에 등록하고 사용하는 다양한 방법
+
+<hr>
+
+# Spring MVC
+MVC 방식을 이용한 CRUD 구현
+(spring은 설정이 한가득이다.)
