@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +20,9 @@
   </style>
 </head>
 <body>
-<c:set var="myctx" value="${pageContext.request.contextPath}" />
+<!-- multiweb -->
+<c:set var="myctx" value="${pageContext.request.contextPath}"/>
+
 <div class="jumbotron text-center" style="margin-bottom:0">
   <h1>My First Bootstrap 4 Page</h1>
   <p>Resize this responsive page to see the effect!</p> 
@@ -39,24 +41,42 @@
       <li class="nav-item">
         <a class="nav-link" href="${myctx}/admin/userList">Users</a>
       </li>
+      <c:if test="${loginUser eq null }">
       <li class="nav-item">
-        <a class="nav-link" href="${myctx}/login">Login</a>
+        <a class="nav-link" href="#loginModal" data-toggle="modal">Login</a>
       </li>
+      </c:if>
+      <c:if test="${loginUser ne null }">
+      <li class="nav-item bg-primary">
+      <a class="nav-link text-white">${loginUser.userid}님 로그인 중</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${myctx}/logout">Logout</a>
+      </li>
+      </c:if>
+      <li class="nav-item">
+        <a class="nav-link" href="${myctx}/ajaxView">Spring Ajax</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="${myctx}/fileForm">File Upload</a>
+      </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="${myctx}/admin/prodForm">상품등록</a>
-      </li>
+      </li>    
       <li class="nav-item">
         <a class="nav-link" href="${myctx}/admin/prodList">상품목록</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="${myctx}/user/cartList">장바구니</a>
+        <a class="nav-link" href="${myctx}/user/cartList">Cart</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="${myctx}/user/board/write">글쓰기</a>
+        <a class="nav-link" href="${myctx}/user/board/write">Board Form</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="${myctx}/board/list">게시판</a>
+        <a class="nav-link" href="${myctx}/board/list">Board List</a>
       </li>
     </ul>
   </div>  
 </nav>
+

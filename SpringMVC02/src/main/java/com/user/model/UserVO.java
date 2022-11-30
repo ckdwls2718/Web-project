@@ -14,10 +14,10 @@ public class UserVO {
 	private String pwd;
 	private String hp1,hp2,hp3;
 	private String post;
-	private String addr1,addr2;
+	private String addr1, addr2;
 	private java.sql.Date indate;
 	private int mileage;
-	private int status; //0 : 일반 , -1 : 정지, -2 : 탈퇴
+	private int status;//회원상태: 0(일반회원),-1(정지회원), -2(탈퇴회원)
 	private String statusStr;
 	
 	public String getAllHp() {
@@ -27,4 +27,5 @@ public class UserVO {
 	public String getAllAddr() {
 		return "["+post+"] "+addr1+" "+addr2;
 	}
+
 }

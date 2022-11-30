@@ -3,18 +3,28 @@ function open_idcheck(){
 	win=window.open("idCheck.do","idCheck","width=400, height=400, left=200, top=200");	
 }//-------------------------------
 
-function ajax_idCheck(uid){
+function ajax_idcheck(uid){
 	if(!uid){
-		alert('아이디를 입력하세요');
-		$('#userid').focus();
-		return;
+		uid=$('#userid').val();
+		if(!uid){
+			alert('아이디를 입력하세요');
+			$('#userid').focus();
+			return;
+		}
+		if(!isUserid(mf.userid)){
+			alert('아이디는 영문자로 시작하고 영문,숫자_! 포함 4~8자리여야 해요');
+			mf.userid.select();
+			return;
+		}
 	}
 
 	$.ajax({
-		type:'get',
+		type:'GET',
 		url:'idcheck?userid='+uid,
 		dataType:'json',
+		cache:false,
 		success:function(res){
+			//alert(JSON.stringify(res));
 			if(res.result=='ok'){
 				$('#id_result').html(uid+"는 사용 가능합니다").css('color','green')
 				$('#id_flag').val("Y");
@@ -24,11 +34,11 @@ function ajax_idCheck(uid){
 			}
 		},
 		error:function(err){
-			alert('err : '+err.status);
+			alert('err: '+err.status);
 		}
 	
 	})
-}//------------------------------
+}//----------------------------------
 
 function setId(uid){
 	//alert(uid);
@@ -78,6 +88,7 @@ function id_check(){
 	}
 	if(!isUserid(mf.userid)){
 		alert('아이디는 영문자,숫자,_,!로 4~8자까지 가능해요');
+		mf.id_flag.value="N";
 		mf.userid.select();
 		return;
 	}
@@ -86,6 +97,7 @@ function id_check(){
 		mf.userid.focus();
 		return;
 	}
+	
 	if(!isPasswd(mf.pwd)){
 		alert('비밀번호는 영문자,숫자,!,. 로 4~8자리까지 가능해요');
 		mf.pwd.select();
@@ -168,8 +180,10 @@ _ : _
 */
 function isUserid(input){
 	let val=input.value;
+	//alert(val);
 	//let pattern=/^[abc]+$/; //a or b or c
-	let pattern=/^[a-zA-Z0-9_!]{4,8}$/;
+	let pattern=/^[a-zA-Z]{1}[a-zA-Z0-9_!]{3,7}$/;
+	//알파벳으로 시작하고 영문,숫자,_!포함해서 4~7자리
 	let b=pattern.test(val);
 	//alert(b);
 	return b;

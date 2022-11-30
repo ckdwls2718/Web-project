@@ -19,16 +19,15 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	
 	@RequestMapping("/test")
 	public String test(Model model) {
 		model.addAttribute("message","Hello SpringMVC~ 안녕 스프링!!");
-		
-		return "hello"; //뷰이름
+		return "hello";//뷰이름
+		// "/WEB-INF/views/뷰이름.jsp"
+		//"/WEB-INF/views/hello.jsp"
 	}
+	
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);

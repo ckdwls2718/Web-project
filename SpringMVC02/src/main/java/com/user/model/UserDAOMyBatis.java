@@ -6,13 +6,13 @@ import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
-
+//Persistence Layer
 @Repository
 public class UserDAOMyBatis implements UserDAO {
 	
-	private final String NS = "user.model.UserMapper";
+	private final String NS="user.model.UserMapper";
 	
-	@Resource(name = "sqlSessionTemplate")
+	@Resource(name="sqlSessionTemplate")
 	private SqlSessionTemplate session;
 
 	@Override
@@ -27,7 +27,7 @@ public class UserDAOMyBatis implements UserDAO {
 	}
 
 	@Override
-	public List<UserVO> listUser(PagingVO pvo) {
+	public List<UserVO> listUser(PagingVO pvo) {		
 		return session.selectList(NS+".listUser", pvo);
 	}
 
@@ -38,19 +38,18 @@ public class UserDAOMyBatis implements UserDAO {
 	}
 
 	@Override
-	public Integer idCheck(String userid) {
-		return session.selectOne(NS+".idCheck",userid);
+	public Integer idCheck(String userid) {		
+		return session.selectOne(NS+".idCheck", userid);
 	}
 
 	@Override
 	public UserVO findUser(UserVO findUser) {
-		// TODO Auto-generated method stub
-		return null;
+		return session.selectOne(NS+".selectUserByUserid", findUser.getUserid());
 	}
 
 	@Override
 	public int deleteUser(Integer midx) {
-		return session.delete(NS+".deleteUser",midx);
+		return session.delete(NS+".deleteUser", midx);
 	}
 
 	@Override

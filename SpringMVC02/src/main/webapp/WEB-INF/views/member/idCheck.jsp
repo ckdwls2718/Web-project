@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<!--  ------------------------------------------------------------ -->
 <link rel="stylesheet" type="text/css" href="./css/layout.css">
-<script type="text/javascript" src="./js/userCheck.js"></script>
+<script src="./js/userCheck.js"></script>
+<!--  ------------------------------------------------------------ -->
+
 
 <div class="container m2" style="margin-top: 2em">
 	<form name="idf" action="idCheck.do" method="post">
@@ -11,6 +14,10 @@
 		<button type="button" onclick="id_check()">확 인</button>
 	</form>
 </div>
+
+
+
+
 
 
 

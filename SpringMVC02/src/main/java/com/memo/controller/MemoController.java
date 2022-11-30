@@ -35,7 +35,7 @@ public class MemoController {
 		//debug<info<warning<error
 		log.info("memo>>>"+memo);
 				
-		int n=memoDao.insert(memo);
+		int n=memoDao.insertMemo(memo);
 		String str=(n>0)?"등록 성공":"등록 실패";
 		String loc=(n>0)?"memoList":"javascript:history.back()";
 		
@@ -73,7 +73,7 @@ public class MemoController {
 		if(idx==0) {
 			return "redirect:memoList";
 		}
-		MemoVO memo=memoDao.selectMemo(idx);
+		MemoVO memo=memoDao.getMemo(idx);
 		
 		model.addAttribute("memo", memo);
 		

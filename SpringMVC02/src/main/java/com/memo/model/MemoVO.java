@@ -1,5 +1,4 @@
 package com.memo.model;
-
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,9 +12,11 @@ import lombok.ToString;
 @ToString(includeFieldNames = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemoVO {
+public class MemoVO { 
+	
 	private int idx;
 	private String name;
 	private String msg;
 	private Date wdate;
+
 }

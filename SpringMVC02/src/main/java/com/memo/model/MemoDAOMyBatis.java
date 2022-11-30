@@ -6,19 +6,21 @@ import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
-//영속성 계층
+//영속성 계층 (Persistence Layer): @Repository
+//컨크롤러: @Controller
 @Repository
 public class MemoDAOMyBatis implements MemoDAO {
 	
 	private final String NS="com.memo.model.MemoMapper";
 	
+	//리소스 이름으로 주입
+	//id가 sqlSessionTemplate인 객체[datasource-context.xml]를 찾아서 주입한다
 	@Resource(name="sqlSessionTemplate")
 	private SqlSessionTemplate session;
 
 	@Override
-	public int insert(MemoVO memo) {
-		int n = session.insert(NS+".insertMemo",memo);
-		return n;
+	public int insertMemo(MemoVO memo) {		
+		return session.insert(NS+".insertMemo", memo);
 	}
 
 	@Override
@@ -27,11 +29,10 @@ public class MemoDAOMyBatis implements MemoDAO {
 	}
 
 	@Override
-	public int deleteMemo(int idx) {
+	public int deleteMemo(int idx) {	
 		return session.delete(NS+".deleteMemo", idx);
 	}
-	
-	
+
 	@Override
 	public int updateMemo(MemoVO memo) {
 		return session.update(NS+".updateMemo", memo);
@@ -39,14 +40,12 @@ public class MemoDAOMyBatis implements MemoDAO {
 
 	@Override
 	public int getTotalCount() {
-		
 		return session.selectOne(NS+".getTotalCount");
 	}
 
 	@Override
-	public MemoVO selectMemo(int idx) {
-		return session.selectOne(NS+".selectMemo", idx);
+	public MemoVO getMemo(int idx) {
+		return session.selectOne(NS+".getMemo", idx);
 	}
-	
-	
+
 }

@@ -19,14 +19,16 @@
 	</select>
 	
 	<delete id="deleteMemo" parameterType="_int">
-		delete from scott.memo where idx = #{value}
+		delete from scott.memo where idx=#{value}
 	</delete>
 	
-	<select id="selectMemo" parameterType="_int" resultType="Memo">
+	<select id="getMemo" resultType="Memo" parameterType="_int">
 		select * from scott.memo where idx=#{value}
 	</select>
 	
 	<update id="updateMemo" parameterType="Memo">
-		update scott.memo set name=#{name}, msg=#{msg:VARCHAR} where idx=#{idx}
+		update scott.memo set name=#{name}, msg=#{msg:VARCHAR} 
+		, wdate=sysdate
+		where idx=#{idx}
 	</update>
 </mapper>
