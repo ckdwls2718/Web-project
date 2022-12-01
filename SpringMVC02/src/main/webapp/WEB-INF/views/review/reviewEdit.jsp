@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- Ajax 요청 처리- -->    
-<script src="js/reviewAjax.js"></script>
-<!-- --------------- -->
-
-<form method="post" enctype="multipart/form-data" name="rf" id="rf">
+<div class="modal" id="reviewModal">
+	<div class="modal-content">
+		<div class="modal-body">
+<form method="post" enctype="multipart/form-data" name="rf2" id="rf2">
 	<!-- hidden data------------------------------------ -->
 		<input type="hidden" name="pnum_fk" id="pnum_fk" value="${prod.pnum}">
 		<input type="hidden" name="userid" id="userid" value="${loginUser.userid}">
+		<input type="hidden" name="num" id="num" value="">
+		
 	<!-- ---------------------------------------------- -->
 	<table class="table">
 	<tr>
@@ -24,8 +25,7 @@
 		<label for="score3"><input type="radio" name="score"  id="score3" value="3">3점</label>
 		<label for="score4"><input type="radio" name="score" id="score4" value="4">4점</label>
 		<label for="score5"><input type="radio" name="score"  id="score5"value="5">5점</label>
-		
-		
+	
 		</td>
 		<th>작성자</th>
 		<td>${loginUser.name}[${loginUser.userid}]</td>
@@ -52,3 +52,7 @@
 	</tr>
 </table>
 </form>
+
+		</div>
+	</div>
+</div>

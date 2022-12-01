@@ -3,6 +3,7 @@ package com.my.multiweb;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,14 +36,12 @@ public class ProductController {
 	}
 	
 	@GetMapping("/prodDetail")
-	public String prodDetail(Model m, @RequestParam(name="pnum", defaultValue="0") int pnum) {
+	public String prodDetail(Model m, @RequestParam(name="pnum", defaultValue="0") int pnum, HttpSession ses) {
 		
 		if(pnum == 0) {
 			return "redirect:mallHit";
 		}
-		
-		log.info("pnum ==="+pnum);
-		
+		ses.setAttribute("pnum", pnum);
 		ProductVO prod = shopService.selectByPnum(pnum);
 		
 		m.addAttribute("prod", prod);

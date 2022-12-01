@@ -104,6 +104,18 @@
             </table>
          </div>
       </div>
+      <div class="row mt-4">
+      	<div class="col-md-10">
+      		<c:import url="/reviewForm"/>
+      	</div>
+      </div>
+      <div class="row mt-4">
+      	<div class="col-md-12" id="reviewList">
+      	</div>
+      </div>
+      
+      <%@ include file="/WEB-INF/views/review/reviewEdit.jsp" %>
+      
 	</div>
 
 <c:import url="/foot" />
