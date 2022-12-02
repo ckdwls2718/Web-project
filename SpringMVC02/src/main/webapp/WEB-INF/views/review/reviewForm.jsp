@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!-- Ajax 요청 처리- -->    
-<script src="js/reviewAjax.js"></script>
+<!-- <script src="js/reviewAjax.js"></script> -->
 <!-- --------------- -->
+
+<script>
+<%@ include file="/js/reviewAjax.js"%>
+</script>
 
 <form method="post" enctype="multipart/form-data" name="rf" id="rf">
 	<!-- hidden data------------------------------------ -->

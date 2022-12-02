@@ -110,11 +110,19 @@
       	</div>
       </div>
       <div class="row mt-4">
+      	<div class="col-md-12" id="reviewTitle">
+      		<h4>Review List <span class="badge badge-success" id="review_cnt"></span></h4>
+      	</div>
+      </div>
+      <div class="row mt-4">
       	<div class="col-md-12" id="reviewList">
       	</div>
       </div>
-      
+      <div class="row">
+      	<div class="col-md-10 offset-md-1">
       <%@ include file="/WEB-INF/views/review/reviewEdit.jsp" %>
+      	</div>
+      </div>
       
 	</div>
 

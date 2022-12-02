@@ -23,4 +23,12 @@
 	<delete id="deleteReview" parameterType="_int">
 		delete from review where num=#{value}
 	</delete>
+	
+	<update id="updateReview" parameterType="Review">
+		update review set content=#{content}, score=#{score} where num=#{num}
+	</update>
+	
+	<select id="getReviewCount" parameterType="_int" resultType="_int">
+		select count(num) from review where pnum_fk=#{value}
+	</select>
 </mapper>
