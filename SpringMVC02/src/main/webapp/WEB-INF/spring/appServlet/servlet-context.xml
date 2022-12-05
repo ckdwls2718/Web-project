@@ -25,8 +25,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	
+	<!-- 컴포넌트 스캔 패키지를 지정한다. -->
 	<context:component-scan base-package="com.my.multiweb,com.memo.controller,com.memo.model" />
-	<context:component-scan base-package="com.user,com.shop,com.common"/>
+	<context:component-scan base-package="com.user,com.shop,com.common,com.board"/>
 	
 	<!-- 파일 업로드 위한 MultipartResolver 설정 ============================== -->
 	<!--주의: 빈의 id는 반드시 multipartResolver로 등록해야 한다.
