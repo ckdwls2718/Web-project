@@ -66,7 +66,17 @@ public class BoardController {
 			String filename=uuid.toString()+"_"+originFname;//물리적파일명=>실제 업로드시킬 파일명
 			log.info("filename==="+filename);
 			
-			//3) 업로드 처리
+			//3_1) mode가 edit이고 예전에 첨부했던 파일이 있다면
+			//예전 파일 삭제 처리
+			if(board.getMode().equals("edit") && board.getOld_filename()!=null) {
+				File delF = new File(upDir, board.getOld_filename());
+				if(delF.exists()) {
+					boolean b = delF.delete();
+					log.info("old_file 삭제여부 : "+b);
+				}
+			}
+			
+			//3_2) 업로드 처리
 			try {
 				mfilename.transferTo(new File(upDir, filename));
 				log.info("upDir==="+upDir);
@@ -96,9 +106,12 @@ public class BoardController {
 			str="글쓰기 ";
 			
 		}else if("rewrite".equals(board.getMode())) {//답변 글쓰기 모드라면
+			n = this.boardService.rewriteBoard(board);
+			str="답변 글쓰기 ";
 			
 		}else if("edit".equals(board.getMode())) {//글 수정이라면
-			
+			n = this.boardService.updateBoard(board);
+			str="글수정 ";
 		}
 		str+=(n>0)?"성공":"실패";
 		loc=(n>0)?"list":"javascript:history.back()";
@@ -131,6 +144,81 @@ public class BoardController {
 		return "board/boardView";
 	}
 	
+	@PostMapping("/delete")
+	public String boardDelete(Model m,
+			HttpServletRequest req,
+			@RequestParam(defaultValue="0") int num,
+			@RequestParam(defaultValue="") String passwd) {
+		log.info("num==="+num+", passwd==="+passwd);
+		if(num==0||passwd.isEmpty()) {
+			return "redirect:list";
+		}
+		
+		//해당글 db에서 가져오기
+		BoardVO vo = this.boardService.selectBoardByIdx(num);
+		if(vo==null) {
+			return util.addMsgBack(m, "해당 글은 존재하지 않습니다");
+		}
+		
+		//비밀번호 일치여부 체크
+		String dbPwd=vo.getPasswd();
+		if(!dbPwd.equals(passwd)) {
+			return util.addMsgBack(m, "비밀번호가 일치하지 않아요");
+		}
+		//글 삭제
+		int n = this.boardService.deleteBoard(num);
+		
+		ServletContext app = req.getServletContext();
+		String upDir = app.getRealPath("/resources/board_upload");
+		log.info("upDir==="+upDir);
+		
+		//서버에 업로드한 첨부파일이 있다면 서버에서 삭제 처리
+		if(n>0 && vo.getFilename()!=null) {
+			File f = new File(upDir, vo.getFilename());
+			if(f.exists()) {
+				boolean b=f.delete();
+				log.info("파일 삭제여부: "+b);
+			}
+		}
+		
+		String str=(n>0) ? "글 삭제 성공":"글 삭제 실패";
+		String loc=(n>0) ? "list":"javascript:history.back()";
+		
+		
+		return util.addMsgLoc(m, str, loc);
+	}
+	
+	@PostMapping("/edit")
+	public String boardEditForm(Model m,
+			@RequestParam(defaultValue = "0") int num,
+			@RequestParam(defaultValue = "") String passwd) {
+		
+		if(num==0 || passwd.isEmpty()) {
+			return "redirect:list";
+		}
+		
+		BoardVO vo = this.boardService.selectBoardByIdx(num);
+		if(vo==null) {
+			return util.addMsgBack(m, "해당 글은 존재하지 않습니다");
+		}
+		
+		if(!vo.getPasswd().equals(passwd)) {
+			return util.addMsgBack(m, "비밀번호가 일치하지 않아요");
+		}
+		
+		m.addAttribute("board", vo);
+		
+		return "board/boardEdit";
+	}
+	
+	@PostMapping("/rewrite")
+	public String boardRewrite(Model m, @ModelAttribute BoardVO vo) {
+		log.info("vo === "+vo);
+		m.addAttribute("num", vo.getNum()); //부모글의 글번호
+		m.addAttribute("subject",vo.getSubject()); //부모글의 제목
+		
+		return "board/boardRewrite";
+	}
 
 }//////////////////////////////////
 

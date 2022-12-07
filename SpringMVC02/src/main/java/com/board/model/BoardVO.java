@@ -26,6 +26,8 @@ public class BoardVO {
 	private int lev;//답변 레벨
 	private int sunbun;// 같은 글그룹 내의 순서
 	
+	private String old_filename; //예젠에 첨부했던 파일(물리적 파일명)
+	
 	
 
 }
