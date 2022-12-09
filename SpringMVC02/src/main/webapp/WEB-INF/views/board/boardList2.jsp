@@ -90,15 +90,35 @@
 		<tfoot>
 			<tr>
 				<td colspan="3" class="text-center">
-				<c:forEach var="i" begin="1" end="${pageCount}">
-				[<a href='list?cpage=<c:out value="${i}" />'> <c:out value="${i}"/> </a>]
-				</c:forEach>				
+				<ul class="pagination justify-content-center">
+				<!-- 이전 5개 -->
+				<c:if test="${paging.prevBlock>0}">
+				<li class="page-item">
+					<a class="page-link" href='list?cpage=<c:out value="${paging.prevBlock}"/>'>Prev</a>
+				</li>
+				</c:if>
+				
+				<!-- 페이지 번호 -->
+				<c:forEach var="i" begin="${paging.prevBlock+1}" end="${paging.nextBlock-1}">
+				<c:if test="${i<=paging.pageCount}">
+				<li class="page-item <c:if test='${i eq paging.cpage }'>active</c:if>">
+					<a class="page-link" href='list?cpage=<c:out value="${i}" />'> <c:out value="${i}"/> </a>
+				</li>
+				</c:if>
+				</c:forEach>
+				<!-- 이후 5개 -->
+				<c:if test="${paging.nextBlock<=paging.pageCount}">
+				<li class="page-item">
+					<a class="page-link" href='list?cpage=<c:out value="${paging.nextBlock}"/>'>Next</a>
+				</li>
+				</c:if>
+				</ul>			
 				</td>
 				
 				
 				<td colspan="2" class="text-right">
-				총 게시글 수:<b><c:out value="${totalCount}"></c:out></b>
-				cpage/pageCount</td>
+				총 게시글 수:<b><c:out value="${paging.totalCount}"></c:out></b>
+				<c:out value="${paging.cpage} / ${paging.pageCount}" /></td>
 			</tr>
 			
 		</tfoot>

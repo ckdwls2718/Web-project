@@ -1,7 +1,9 @@
 package com.my.multiweb;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.board.model.BoardVO;
+import com.board.model.PagingVO;
 import com.board.service.BoardService;
 import com.common.CommonUtil;
 
@@ -101,7 +104,6 @@ public class BoardController {
 		int n=0;
 		String str="",loc="";
 		if("write".equals(board.getMode())) {//글쓰기 모드라면
-			
 			n=this.boardService.insertBoard(board);
 			str="글쓰기 ";
 			
@@ -122,13 +124,69 @@ public class BoardController {
 		
 		return util.addMsgLoc(m,str,loc);//msg를 반환
 	}//--------------------------------------
+	
 	@GetMapping("/list")
-	public String boardList(Model m) {
-		//게시판 목록 가져와서 모델에 저장하기
-		//"boardArr"
-		List<BoardVO> boardArr=this.boardService.selectBoardAll(null);
+	public String boardListPaging(Model m, @ModelAttribute("page") PagingVO page) {
+		log.info("1. page =="+page);
+		//1. 총 게시글 수 가져오기
+		int totalCount = this.boardService.getTotalCount(page);
+		page.setTotalCount(totalCount);
+		page.setPageSize(5); // 페이지당 보여줄 게시글 수
+		page.setPagingBlock(5); // 페이징 블록 설정
+		
+		page.init(); // 페이징 관련 연산을 수행하는 메서드
+		
+		log.info("2. page =="+page);
+		
+		List<BoardVO> boardArr = this.boardService.selectBoardAllPaging(page);
+		
+		m.addAttribute("paging", page);
 		m.addAttribute("boardArr", boardArr);
 		
+		return "board/boardList2";
+	}
+	
+	@GetMapping("/list_old")
+	public String boardList(Model m, @RequestParam(defaultValue = "1") int cpage) {
+		
+		log.info("cpage==="+cpage);
+		//페이지가 0이거나 음수로 들어오면
+		if(cpage<=0) {
+			cpage=1;
+		}
+		//1.총 게시글 수 구하기
+		int totalCount = this.boardService.getTotalCount(null);
+		
+		//2. 한 페이지당 보여줄 목록 개수 정하기
+		int pageSize=5;
+		int pageCount=(totalCount-1)/pageSize+1;
+		
+		//최대 페이지를 초과하면
+		if(cpage>pageCount) {
+			cpage = pageCount;
+		}
+		
+		//게시판 목록 가져와서 모델에 저장하기
+		
+		//[1] where 절 between을 사용할 경우
+//		int end = cpage*pageSize;
+//		int start = end-(pageSize-1);
+		
+		//[2] where절 rn> a and rn<b
+		int start = (cpage-1)*pageSize;
+		int end= start+pageSize+1;
+		
+		
+		Map<String, Integer> map = new HashMap<>();
+		map.put("start",start);
+		map.put("end",end);
+		
+		//"boardArr"
+		List<BoardVO> boardArr=this.boardService.selectBoardAll(map);
+		m.addAttribute("boardArr", boardArr);
+		m.addAttribute("totalCount", totalCount);
+		m.addAttribute("pageCount", pageCount);
+		m.addAttribute("cpage", cpage);
 		return "board/boardList";
 	}//---------------------------
 	
